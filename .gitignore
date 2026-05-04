@@ -22,3 +22,6 @@ yarn-error.log
 public/vendor/scribe/
 resources/views/scribe/
 .scribe/
+
+/sprint-tracker-vue/node_modules
+
