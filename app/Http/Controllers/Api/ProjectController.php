@@ -7,6 +7,7 @@ use App\Http\Requests\ProjectStoreRequest;
 use App\Http\Requests\ProjectUpdateRequest;
 use App\Http\Resources\ProjectResource;
 use App\Models\Project;
+use App\Services\ProjectService;
 use Illuminate\Support\Facades\Auth;
 
 /**
@@ -20,6 +21,11 @@ use Illuminate\Support\Facades\Auth;
  */
 class ProjectController extends Controller
 {
+
+    public function __construct(private ProjectService $projectService)
+    {}
+
+
     /**
      * GET /projects
      * Returns only the projects the authenticated user is a member of.
@@ -43,11 +49,7 @@ class ProjectController extends Controller
      */
     public function store(ProjectStoreRequest $request)
     {
-        $project = Project::create([
-            'name' => $request->name,
-            'description' => $request->description,
-            'owner_id' => Auth::id(),
-        ]);
+        $project = $this->projectService->createProject($request->validated());
 
         // Attach the creator to the pivot table with the 'admin' role
         $project->members()->attach(Auth::id(), ['role' => 'admin']);
@@ -73,7 +75,7 @@ class ProjectController extends Controller
      */
     public function update(ProjectUpdateRequest $request, Project $project)
     {
-        $project->update($request->validated());
+        $project = $this->projectService->updateProject($project, $request->validated());
 
         return new ProjectResource($project);
     }
@@ -89,7 +91,7 @@ class ProjectController extends Controller
             return response()->json(['message' => 'Forbidden'], 403);
         }
 
-        $project->delete();
+        $this->projectService->deleteProject($project);
 
         return response()->json(['message' => 'Project deleted']);
     }

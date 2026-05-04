@@ -8,6 +8,7 @@ use App\Http\Requests\TaskUpdateRequest;
 use App\Http\Resources\TaskResource;
 use App\Models\Sprint;
 use App\Models\Task;
+use App\Services\TaskService;
 use Illuminate\Support\Facades\Auth;
 
 /**
@@ -20,6 +21,10 @@ use Illuminate\Support\Facades\Auth;
  */
 class TaskController extends Controller
 {
+
+    public function __construct(private TaskService $taskService)
+    {}
+
     /**
      * GET /sprints/{sprint}/tasks
      * Returns all tasks for the given sprint.
@@ -38,7 +43,7 @@ class TaskController extends Controller
      */
     public function store(TaskStoreRequest $request, Sprint $sprint)
     {
-        $task = $sprint->tasks()->create($request->validated());
+        $task = $this->taskService->createTask($sprint, $request->validated());
 
         return new TaskResource($task);
     }
@@ -58,7 +63,7 @@ class TaskController extends Controller
      */
     public function update(TaskUpdateRequest $request, Sprint $sprint, Task $task)
     {
-        $task->update($request->validated());
+       $task = $this->taskService->updateTask($task, $request->validated());
 
         return new TaskResource($task);
     }
@@ -73,7 +78,7 @@ class TaskController extends Controller
             return response()->json(['message' => 'Forbidden'], 403);
         }
 
-        $task->delete();
+        $this->taskService->deleteTask($task);
 
         return response()->json(['message' => 'Task deleted']);
     }
