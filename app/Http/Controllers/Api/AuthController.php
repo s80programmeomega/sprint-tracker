@@ -10,6 +10,10 @@ use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
+    /**
+     * @unauthenticated
+     * @bodyParam password_confirmation string required Must match password.
+     */
     public function register(Request $request)
     {
         $data = $request->validate([
@@ -34,6 +38,7 @@ class AuthController extends Controller
         ], 201);
     }
 
+    /** @unauthenticated */
     public function login(Request $request)
     {
         $data = $request->validate([
@@ -59,7 +64,11 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        $request->user()->currentAccessToken()->delete();
+        $token = $request->user()->currentAccessToken();
+
+        if ($token instanceof \Laravel\Sanctum\PersonalAccessToken) {
+            $token->delete();
+        }
 
         return response()->json(['message' => 'Logged out successfully']);
     }

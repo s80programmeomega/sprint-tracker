@@ -76,7 +76,7 @@ app/
 │   ├── Controllers/Api/   # Resource controllers (Phase 3+)
 │   ├── Requests/          # Form request validation (Phase 3+)
 │   └── Resources/         # API response transformers (Phase 3+)
-└── Services/       # Business logic layer (Phase 4+)
+└── Services/       # Business logic layer (Phase 5+)
 ```
 
 ---
@@ -87,8 +87,8 @@ app/
 |-------|-------|--------|
 | 1 | JS Foundations (async/await, ES modules) | done |
 | 2 | Laravel setup, migrations, models, enums | done |
-| 3 | Auth (Sanctum + Fortify), roles (Spatie) | in progress |
-| 4 | API controllers, Form Requests, Resources | pending |
+| 3 | Auth (Sanctum + Fortify), roles (Spatie) | done |
+| 4 | API controllers, Form Requests, Resources | done |
 | 5 | Service layer | pending |
 | 6 | Vue 3 foundations | pending |
 | 7 | Vue Router + Pinia | pending |

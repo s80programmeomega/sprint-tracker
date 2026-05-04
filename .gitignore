@@ -17,3 +17,8 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+
+# Scribe generated assets
+public/vendor/scribe/
+resources/views/scribe/
+.scribe/
