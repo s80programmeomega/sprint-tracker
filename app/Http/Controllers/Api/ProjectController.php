@@ -7,6 +7,7 @@ use App\Http\Requests\ProjectStoreRequest;
 use App\Http\Requests\ProjectUpdateRequest;
 use App\Http\Resources\ProjectResource;
 use App\Models\Project;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * ProjectController — handles CRUD for projects.
@@ -26,7 +27,9 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = auth()->user()->projects()->get();
+        $projects = Auth::user()
+            ->projects()
+            ->get();
 
         return ProjectResource::collection($projects);
     }
@@ -41,13 +44,13 @@ class ProjectController extends Controller
     public function store(ProjectStoreRequest $request)
     {
         $project = Project::create([
-            'name'        => $request->name,
+            'name' => $request->name,
             'description' => $request->description,
-            'owner_id'    => auth()->id(),
+            'owner_id' => Auth::id(),
         ]);
 
         // Attach the creator to the pivot table with the 'admin' role
-        $project->members()->attach(auth()->id(), ['role' => 'admin']);
+        $project->members()->attach(Auth::id(), ['role' => 'admin']);
 
         return new ProjectResource($project);
     }
@@ -82,7 +85,7 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
-        if (! auth()->user()->can('delete-project') || $project->owner_id !== auth()->id()) {
+        if (!Auth::user()->can('delete-project') || $project->owner_id !== Auth::id()) {
             return response()->json(['message' => 'Forbidden'], 403);
         }
 

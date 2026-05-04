@@ -8,6 +8,7 @@ use App\Http\Requests\TaskUpdateRequest;
 use App\Http\Resources\TaskResource;
 use App\Models\Sprint;
 use App\Models\Task;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * TaskController — handles CRUD for tasks nested under a sprint.
@@ -68,7 +69,7 @@ class TaskController extends Controller
      */
     public function destroy(Sprint $sprint, Task $task)
     {
-        if (! auth()->user()->can('delete-task')) {
+        if (! Auth::user()->can('delete-task')) {
             return response()->json(['message' => 'Forbidden'], 403);
         }
 

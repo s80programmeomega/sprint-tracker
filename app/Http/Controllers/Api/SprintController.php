@@ -8,6 +8,7 @@ use App\Http\Requests\SprintUpdateRequest;
 use App\Http\Resources\SprintResource;
 use App\Models\Project;
 use App\Models\Sprint;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * SprintController — handles CRUD for sprints nested under a project.
@@ -69,7 +70,7 @@ class SprintController extends Controller
      */
     public function destroy(Project $project, Sprint $sprint)
     {
-        if (! auth()->user()->can('edit-sprint')) {
+        if (! Auth::user()->can('delete-sprint')) {
             return response()->json(['message' => 'Forbidden'], 403);
         }
 

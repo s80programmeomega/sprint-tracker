@@ -25,6 +25,7 @@ class RoleSeeder extends Seeder
             'manage-members',
             'create-sprint',
             'edit-sprint',
+            'delete-sprint',
             'create-task',
             'edit-task',
             'delete-task',
