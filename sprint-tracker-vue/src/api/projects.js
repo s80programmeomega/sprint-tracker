@@ -37,3 +37,10 @@ export async function deleteProject(id) {
     const response = await api.delete(`/projects/${id}`)
     return response.data
 }
+
+// GET /api/projects/:id/sprints — returns all sprints for a project.
+// Sprints are nested under projects in the API: Route::apiResource('projects.sprints')
+export async function getSprints(projectId) {
+    const response = await api.get(`/projects/${projectId}/sprints`)
+    return response.data
+}

@@ -2,6 +2,7 @@ import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import router from './router/index.js'
 import App from './App.vue'
+import './style.css'
 
 // Create the Vue application instance with App.vue as the root component.
 // Every component, store, and route lives inside this instance.

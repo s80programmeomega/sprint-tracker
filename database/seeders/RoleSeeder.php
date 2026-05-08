@@ -33,21 +33,21 @@ class RoleSeeder extends Seeder
         ];
 
         foreach ($permissions as $permission) {
-            Permission::create(['name' => $permission]);
+            Permission::firstOrCreate(['name' => $permission]);
         }
 
         // Create roles and assign permissions
-        $admin = Role::create(['name' => 'admin']);
+        $admin = Role::firstOrCreate(['name' => 'admin']);
         $admin->givePermissionTo($permissions);
 
-        $member = Role::create(['name' => 'member']);
+        $member = Role::firstOrCreate(['name' => 'member']);
         $member->givePermissionTo([
             'create-task',
             'edit-task',
             'assign-task',
         ]);
 
-        Role::create(['name' => 'viewer']);
+        Role::firstOrCreate(['name' => 'viewer']);
         // viewer gets no permissions — read only
     }
 }

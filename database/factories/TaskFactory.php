@@ -17,7 +17,14 @@ class TaskFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'title'       => fake()->sentence(4),
+            'description' => fake()->paragraph(),
+            // randomElement() picks from the enum's values() array — stays in sync automatically.
+            'status'      => fake()->randomElement(\App\Enums\TaskStatus::values()),
+            'priority'    => fake()->randomElement(\App\Enums\TaskPriority::values()),
+            'due_date'    => fake()->optional()->dateTimeBetween('now', '+1 month')?->format('Y-m-d'),
+            'sprint_id'   => \App\Models\Sprint::factory(),
+            'assigned_to' => null,
         ];
     }
 }

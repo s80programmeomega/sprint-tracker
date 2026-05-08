@@ -16,8 +16,17 @@ class SprintFactory extends Factory
      */
     public function definition(): array
     {
+        $start = fake()->dateTimeBetween('now', '+1 month');
+        $end   = fake()->dateTimeBetween($start, '+2 months');
+
         return [
-            //
+            'name'       => 'Sprint ' . fake()->numberBetween(1, 20),
+            'goal'       => fake()->sentence(),
+            'start_date' => $start->format('Y-m-d'),
+            'end_date'   => $end->format('Y-m-d'),
+            'status'     => fake()->randomElement(['planned', 'active', 'completed']),
+            // project_id must be provided or will create a new project automatically.
+            'project_id' => \App\Models\Project::factory(),
         ];
     }
 }
