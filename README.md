@@ -91,5 +91,5 @@ app/
 | 4 | API controllers, Form Requests, Resources | done |
 | 5 | Service layer | done |
 | 6 | Vue 3 foundations | done |
-| 7 | Vue Router + Pinia | pending |
+| 7 | Vue Router + Pinia | done |
 | 8 | Advanced UI — Kanban, modals, filters | pending |
